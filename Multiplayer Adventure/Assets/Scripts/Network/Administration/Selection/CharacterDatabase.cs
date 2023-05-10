@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace Network.Administration.Selection
 {
@@ -7,7 +8,7 @@ namespace Network.Administration.Selection
     {
         [SerializeField] private Character[] _characters = new Character[0];
 
-        public Character[] GetAllCharacters => _characters;
+        public Character[] GetAllCharacters() => _characters;
 
         
         public Character GetCharacterById(int id)
@@ -22,6 +23,11 @@ namespace Network.Administration.Selection
             }
 
             return null;
+        }
+
+        public bool IsValidCharacterId(int id)
+        {
+            return _characters.Any(x => x.Id == id);
         }
     }
 }

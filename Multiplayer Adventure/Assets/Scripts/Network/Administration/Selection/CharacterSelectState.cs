@@ -7,11 +7,13 @@ namespace Network.Administration.Selection
     {
         public ulong ClientId;
         public int CharacterId;
+        public bool IsLockedIn;
 
-        public CharacterSelectState(ulong clientId, int characterId = -1)
+        public CharacterSelectState(ulong clientId, int characterId = -1, bool isLockedIn = false)
         {
             ClientId = clientId;
             CharacterId = characterId;
+            IsLockedIn = isLockedIn;
         }
 
 
@@ -19,12 +21,9 @@ namespace Network.Administration.Selection
         {
             serializer.SerializeValue(ref ClientId);
             serializer.SerializeValue(ref CharacterId);
+            serializer.SerializeValue(ref IsLockedIn);
         }
 
-        public bool Equals(CharacterSelectState other)
-        {
-            return ClientId == other.ClientId && CharacterId == other.CharacterId;
-        }
 
         public override bool Equals(object obj)
         {
@@ -33,7 +32,12 @@ namespace Network.Administration.Selection
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(ClientId, CharacterId);
+            return HashCode.Combine(ClientId, CharacterId, IsLockedIn);
+        }
+
+        public bool Equals(CharacterSelectState other)
+        {
+            return ClientId == other.ClientId && CharacterId == other.CharacterId && IsLockedIn == other.IsLockedIn;
         }
     }
 }

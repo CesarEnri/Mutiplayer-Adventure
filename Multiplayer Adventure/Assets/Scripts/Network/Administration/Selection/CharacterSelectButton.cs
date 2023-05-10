@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Network.Administration.Selection
@@ -7,23 +6,33 @@ namespace Network.Administration.Selection
     public class CharacterSelectButton: MonoBehaviour
     {
         [SerializeField] private Image iconImage;
-
+        [SerializeField] private GameObject disabledOverlay;
+        [SerializeField] private Button button;
 
         private CharacterSelectDisplay _characterSelect;
-        private Character _character;
-        
+        public Character Character { get; private set; }
 
-        private void SetCharacter(CharacterSelectDisplay characterSelect, Character character)
+        public bool IsDisabled { get; private set; }
+
+
+        public void SetCharacter(CharacterSelectDisplay characterSelect, Character character)
         {
             iconImage.sprite = character.Icon;
 
             _characterSelect = characterSelect;
-            _character = character;
+            Character = character;
         }
 
         public void SelectCharacter()
         {
-            _characterSelect.Select(_character);
+            _characterSelect.Select(Character);
+        }
+
+        public void SetDisabled()
+        {
+            IsDisabled = true;
+            disabledOverlay.SetActive(true);
+            button.interactable = false;
         }
     }
 }
