@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Network.Networking;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -61,7 +62,6 @@ namespace Network.Administration.Selection
 
             base.OnNetworkSpawn();
         }
-
 
         public override void OnNetworkDespawn()
         {
@@ -238,12 +238,28 @@ namespace Network.Administration.Selection
                 _players[i] = new CharacterSelectState(_players[i].ClientId, _players[i].CharacterId, true);
 
             }
+
+            foreach (var player in _players)
+            {
+                if (!player.IsLockedIn)
+                {
+                    return;
+                }
+            }
+
+            foreach (var player in _players)
+            {
+                ServerManager.Instance.SetCharacter(player.ClientId, player.CharacterId);
+            }
+            
+            ServerManager.Instance.StartGame();
+            
         }
 
 
         private bool IsCharacterTaken(int characterId, bool checkAll)
         {
-            for (int i = 0; i < _players.Count; i++)
+            for (var i = 0; i < _players.Count; i++)
             {
                 if (!checkAll)
                 {
