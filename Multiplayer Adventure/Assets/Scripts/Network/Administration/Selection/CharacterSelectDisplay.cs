@@ -19,7 +19,9 @@ namespace Network.Administration.Selection
         [SerializeField] private TMP_Text characterNameText;
         [SerializeField] private Transform introSpawnPoint;
         [SerializeField] private Button lockInButton;
-
+        [SerializeField] private TextMeshProUGUI joinCodeText;
+        
+        
         private GameObject _introInstance;
         private List<CharacterSelectButton> _characterSelectButtons = new();
 
@@ -60,7 +62,10 @@ namespace Network.Administration.Selection
                 }
             }
 
-            base.OnNetworkSpawn();
+            if (IsHost)
+            {
+                joinCodeText.text = HostManager.Instance.JoinCode;
+            }
         }
 
         public override void OnNetworkDespawn()
@@ -75,8 +80,7 @@ namespace Network.Administration.Selection
                 NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
                 NetworkManager.Singleton.OnClientDisconnectCallback += HandleClientDisconnected;
             }
-
-            base.OnNetworkDespawn();
+            
         }
 
         private void HandlePlayersStateChanged(NetworkListEvent<CharacterSelectState> changeEvent)
@@ -249,10 +253,10 @@ namespace Network.Administration.Selection
 
             foreach (var player in _players)
             {
-                ServerManager.Instance.SetCharacter(player.ClientId, player.CharacterId);
+                HostManager.Instance.SetCharacter(player.ClientId, player.CharacterId);
             }
             
-            ServerManager.Instance.StartGame();
+            HostManager.Instance.StartGame();
             
         }
 

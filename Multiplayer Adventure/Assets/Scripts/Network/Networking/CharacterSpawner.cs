@@ -14,7 +14,7 @@ namespace Network.Networking
             if (!IsServer)
                 return;
 
-            foreach (var client in ServerManager.Instance.ClientData)
+            foreach (var client in HostManager.Instance.ClientData)
             {
                 var character = characterDatabase.GetCharacterById(client.Value.characterId);
 
