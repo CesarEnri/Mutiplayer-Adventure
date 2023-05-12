@@ -25,15 +25,15 @@ namespace Network.Networking
 
         public string JoinCode { get; private set; }
 
-        public void StartServer()
-        {
-            NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
-            NetworkManager.Singleton.OnServerStarted += OnNetworkReady;
-            
-            ClientData = new Dictionary<ulong, ClientData>();
-            
-            NetworkManager.Singleton.StartServer();
-        }
+        // public void StartServer()
+        // {
+        //     NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
+        //     NetworkManager.Singleton.OnServerStarted += OnNetworkReady;
+        //     
+        //     ClientData = new Dictionary<ulong, ClientData>();
+        //     
+        //     NetworkManager.Singleton.StartServer();
+        // }
         
         public async Task StartHost()
         {
@@ -61,11 +61,8 @@ namespace Network.Networking
                 Debug.Log($"Relay get join code request failed {e.Message}");
                 throw;
             }
-
+            
             var relayServerData = new RelayServerData(allocation, "dtls");
-            
-           
-            
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
             
             NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;

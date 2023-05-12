@@ -16,10 +16,12 @@ namespace Network.Interface
         [SerializeField] private GameObject menuPanel;
 
         [SerializeField] private TMP_InputField joinCodeInputField;
-
-
+        
+        
         private async void Start()
         {
+            connectingPanel.SetActive(true);
+            
             try
             {
                 await UnityServices.InitializeAsync();
